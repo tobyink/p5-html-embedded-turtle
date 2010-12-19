@@ -14,13 +14,14 @@ readme_from         $fn;
 author              'Toby Inkster <tobyink@cpan.org>';
 license             'perl';
 
-test_requires       'Test::More' => '0.61';
-
 requires            'common::sense'       => 0;
 requires            'Data::UUID'          => 0;
+test_requires       'Module::Signature'   => '0.66';
 requires            'RDF::RDFa::Parser'   => '1.09_04';
 requires            'RDF::Trine'          => '0.118';
+requires            'RDF::TriN3'          => 0;
 requires            'RDF::TrineShortcuts' => '0.07';
+test_requires       'Test::More'          => '0.61';
 
 resources(
 	'homepage'   => "http://search.cpan.org/dist/$dist/",
@@ -28,6 +29,8 @@ resources(
 	'bugtracker' => "http://rt.cpan.org/Dist/Display.html?Queue=$dist",
 	);
 	
+keywords(qw(HTML XHTML script RDF SemWeb Turtle Notation3 N-Triples));
+
 write_doap_changes;
 write_doap_changes_xml;
 

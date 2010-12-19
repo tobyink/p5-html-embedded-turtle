@@ -1,6 +1,7 @@
 NAME
     HTML::Embedded::Turtle - embedding RDF in HTML the crazy way
 
+VERSION
     0.01
 
 SYNOPSIS
@@ -37,7 +38,7 @@ DESCRIPTION
     type>s: text/turtle, application/turtle, application/x-turtle text/plain
     (N-Triples), application/x-rdf+json (RDF/JSON), application/json
     (RDF/JSON), application/rdf+xml (RDF/XML). Although it doesn't support
-    full N3, it recognised the following as well, but treats them as Turtle:
+    full N3, it recognises the following as well, but treats them as Turtle:
     text/n3, text/rdf+n3.
 
   Constructor
@@ -87,6 +88,8 @@ DESCRIPTION
 
 BUGS
     Please report any bugs to <http://rt.cpan.org/>.
+
+    Please forgive me in advance for inflicting this module upon you.
 
 SEE ALSO
     RDF::RDFa::Parser, RDF::Trine.

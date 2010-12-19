@@ -3,10 +3,11 @@ package HTML::Embedded::Turtle;
 use 5.008;
 use common::sense;
 use Data::UUID;
-use RDF::RDFa::Parser '1.09_04';
+use RDF::RDFa::Parser '1.093';
+use RDF::TriN3;
 use RDF::TrineShortcuts qw(rdf_query rdf_parse);
 
-our $VERSION = '0.01';
+our $VERSION = '0.090';
 
 sub new
 {
@@ -99,8 +100,7 @@ sub _choose_parser_by_type
 	}
 	elsif ($type =~ m'^\s*(application|text)/(x-)?(rdf\+)?n3\b'i)
 	{
-		warn "Notation 3 is not supported; attempting to parse as Turtle.";
-		return RDF::Trine::Parser::Turtle->new;
+		return RDF::Trine::Parser::Notation3->new;
 	}
 	elsif ($type =~ m'^\s*(application/rdf\+xml)|(text/rdf)\b'i)
 	{

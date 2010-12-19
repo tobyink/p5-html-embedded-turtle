@@ -28,6 +28,17 @@ my:v_0-01
 	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/HTML-Embedded-Turtle-0.01.tar.gz> ;
 	rdfs:label      "First release"@en .
 
+my:v_0-090
+
+	a               :Version ;
+	dc:issued       "2010-12-09"^^xsd:date ;
+	:revision       "0.090"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/HTML-Embedded-Turtle-0.090.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-01 ;
+		dcs:item   [ rdfs:label "use RDF::TriN3"@en ]
+		] .
+
 #############################################################
 
 my:project
@@ -46,7 +57,7 @@ my:project
 	:tester         toby:i ;
 	:created        "2010-05-05"^^xsd:date ;
 	:license        <http://dev.perl.org/licenses/> ;
-	:release        my:v_0-01 .
+	:release        my:v_0-01 , my:v_0-090 .
 
 #############################################################
 
