@@ -16,7 +16,6 @@ license             'perl';
 
 requires            'common::sense'       => 0;
 requires            'Data::UUID'          => 0;
-test_requires       'Module::Signature'   => '0.66';
 requires            'RDF::RDFa::Parser'   => '1.09_04';
 requires            'RDF::Trine'          => '0.118';
 requires            'RDF::TriN3'          => 0;
