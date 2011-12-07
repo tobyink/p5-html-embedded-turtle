@@ -29,7 +29,7 @@ my:v_0-090
 my:project :release my:v_0-271 .
 my:v_0-271
 	a               :Version ;
-	dc:issued       "2010-12-09"^^xsd:date ;
+	dc:issued       "2011-11-03"^^xsd:date ;
 	:revision       "0.271"^^xsd:string ;
 	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/HTML-Embedded-Turtle-0.271.tar.gz> ;
 	dcs:changeset [
@@ -41,3 +41,14 @@ my:v_0-271
 		dcs:item   [ rdfs:label "use 5.010"@en ; a dcs:Update ]
 		] .
 
+my:project :release my:v_0-314 .
+my:v_0-314
+	a               :Version ;
+	dc:issued       "2011-12-07"^^xsd:date ;
+	:revision       "0.314"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/HTML-Embedded-Turtle-0.314.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-271 ;
+		dcs:item   [ rdfs:label "Note the dependency on namespace::clean."@en ; a dcs:Packaging ] ;
+		dcs:item   [ rdfs:label "use Object::AUTHORITY"@en ; a dcs:Update ]
+		] .

@@ -2,6 +2,7 @@ package HTML::Embedded::Turtle;
 
 use 5.010;
 use common::sense; # oh, the irony!
+
 use Data::UUID;
 use RDF::RDFa::Parser '1.093';
 use RDF::TriN3;
@@ -10,9 +11,10 @@ use RDF::Trine qw[iri literal blank statement];
 sub biri { $_[0] =~ /^_:(.*)$/ ? blank($1) : iri(@_) }
 
 use namespace::clean;
+use Object::AUTHORITY;
 
 BEGIN {
-  $HTML::Embedded::Turtle::VERSION   = '0.271';
+  $HTML::Embedded::Turtle::VERSION   = '0.314';
   $HTML::Embedded::Turtle::AUTHORITY = 'cpan:TOBYINK';
 }
 
