@@ -15,7 +15,7 @@ my:project
 	:homepage       <https://metacpan.org/release/HTML-Embedded-Turtle> ;
 	:download-page  <https://metacpan.org/release/HTML-Embedded-Turtle> ;
 	:bug-database   <http://rt.cpan.org/Dist/Display.html?Queue=HTML-Embedded-Turtle> ;
-	:repository     [ a :SVNRepository ; :browse <http://goddamn.co.uk/svn-web/perlmods/browse/HTML-Embedded-Turtle/> ] ;
+	:repository     [ a :HgRepository ; :browse <https://bitbucket.org/tobyink/p5-html-embedded-turtle> ] ;
 	:maintainer     toby:i ;
 	:developer      toby:i ;
 	:documenter     toby:i ;
