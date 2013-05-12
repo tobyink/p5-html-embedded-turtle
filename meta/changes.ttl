@@ -49,6 +49,17 @@ my:v_0-314
 	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/HTML-Embedded-Turtle-0.314.tar.gz> ;
 	dcs:changeset [
 		dcs:versus my:v_0-271 ;
-		dcs:item   [ rdfs:label "Note the dependency on namespace::clean."@en ; a dcs:Packaging ] ;
 		dcs:item   [ rdfs:label "use Object::AUTHORITY"@en ; a dcs:Update ]
+		] .
+
+my:project :release my:v_0-333 .
+my:v_0-333
+	a               :Version ;
+	dc:issued       "2011-12-08"^^xsd:date ;
+	:revision       "0.333"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/HTML-Embedded-Turtle-0.333.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-314 ;
+		dcs:item   [ rdfs:label "Note the dependency on namespace::clean."@en ; a dcs:Packaging ] ;
+		dcs:item   [ rdfs:label "Note the dependency on Object::AUTHORITY."@en ; a dcs:Packaging ]
 		] .

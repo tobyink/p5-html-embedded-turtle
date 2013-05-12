@@ -14,7 +14,7 @@ use namespace::clean;
 use Object::AUTHORITY;
 
 BEGIN {
-  $HTML::Embedded::Turtle::VERSION   = '0.314';
+  $HTML::Embedded::Turtle::VERSION   = '0.333';
   $HTML::Embedded::Turtle::AUTHORITY = 'cpan:TOBYINK';
 }
 

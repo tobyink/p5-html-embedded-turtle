@@ -8,6 +8,6 @@
 	:readme_from _:main ;
 	:test_requires "Test::More 0.61" , "Test::RDF 0.23" ;
 	:requires "Data::UUID", "RDF::RDFa::Parser 1.093", "common::sense" ,
-		"RDF::Trine 0.135" , "RDF::TriN3" .
+		"RDF::Trine 0.135" , "RDF::TriN3" , "namespace::clean", "Object::AUTHORITY".
 
 _:main <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileName> "lib/HTML/Embedded/Turtle.pm" .
