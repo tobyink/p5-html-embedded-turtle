@@ -63,3 +63,15 @@ my:v_0-333
 		dcs:item   [ rdfs:label "Note the dependency on namespace::clean."@en ; a dcs:Packaging ] ;
 		dcs:item   [ rdfs:label "Note the dependency on Object::AUTHORITY."@en ; a dcs:Packaging ]
 		] .
+
+my:project :release my:v_0-404 .
+my:v_0-404
+	a               :Version ;
+	dc:issued       "2013-08-01"^^xsd:date ;
+	:revision       "0.404"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/HTML-Embedded-Turtle-0.404.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-333 ;
+		dcs:item   [ rdfs:label "General tidy-up."@en ; a dcs:Change ] ;
+		dcs:item   [ rdfs:label "Stop using given/when (it warns in Perl 5.18)."@en ; a dcs:Update ]
+	] .
