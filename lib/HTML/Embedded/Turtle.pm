@@ -1,7 +1,8 @@
 package HTML::Embedded::Turtle;
 
-use 5.010;
-use common::sense; # oh, the irony!
+use 5.008;
+use strict;
+no warnings;
 
 use Data::UUID;
 use RDF::RDFa::Parser '1.093';
@@ -18,22 +19,27 @@ BEGIN {
   $HTML::Embedded::Turtle::AUTHORITY = 'cpan:TOBYINK';
 }
 
-my $xhv = RDF::Trine::Namespace->new('http://www.w3.org/1999/xhtml/vocab#');
+my $xhv = 'RDF::Trine::Namespace'->new('http://www.w3.org/1999/xhtml/vocab#');
 
 sub new
 {
-	my ($class, $markup, $base_uri, $options) = @_;
+	my $class = shift;
+	my ($markup, $base_uri, $options) = @_;
+	
 	my $self = bless {
 		markup   => $markup ,
 		options  => $options ,
-		}, $class;
+	} => $class;
 	
-	$options->{'rdfa_options'} //= $options->{'markup'} =~ /x(ht)?ml/i
-		? RDF::RDFa::Parser::Config->new(RDF::RDFa::Parser::Config->HOST_XHTML, RDF::RDFa::Parser::Config->RDFA_10)
-		: RDF::RDFa::Parser::Config->new(RDF::RDFa::Parser::Config->HOST_HTML5, RDF::RDFa::Parser::Config->RDFA_10);
+	my $cfg = 'RDF::RDFa::Parser::Config';
+	$options->{rdfa_options} ||= $cfg->new(
+		($options->{markup} =~ /x(ht)?ml/i)
+			? ($cfg->HOST_XHTML, $cfg->RDFA_10)
+			: ($cfg->HOST_HTML5, $cfg->RDFA_10)
+	);
 	
 	my $rdfa_parser      =
-	$self->{rdfa_parser} = RDF::RDFa::Parser->new($markup, $base_uri, $options->{'rdfa_options'});
+	$self->{rdfa_parser} = 'RDF::RDFa::Parser'->new($markup, $base_uri, $options->{rdfa_options});
 	$self->{dom}         = $rdfa_parser->dom;
 	$self->{base_uri}    = $rdfa_parser->uri;
 
@@ -42,7 +48,7 @@ sub new
 
 sub _find_endorsed
 {
-	my ($self) = @_;
+	my $self = shift;
 	my $rdfa_parser = $self->{rdfa_parser};
 
 	foreach my $o ($rdfa_parser->graph->objects(iri($self->{base_uri}), $xhv->meta))
@@ -63,25 +69,25 @@ sub _find_endorsed
 
 sub _extract_graphs
 {
-	my ($self) = @_;
+	my $self = shift;
 	my $uuid = Data::UUID->new;
 	
 	my @scripts = $self->{'dom'}->getElementsByTagName('script');
 	foreach my $script (@scripts)
 	{
 		my $parser = $self->_choose_parser_by_type($script->getAttribute('type'))
-			// $self->_choose_parser_by_language($script->getAttribute('language'));
+			|| $self->_choose_parser_by_language($script->getAttribute('language'));
 		next unless $parser;
 		
 		my $data  = $script->textContent;
-		my $model = RDF::Trine::Model->temporary_model;
+		my $model = 'RDF::Trine::Model'->temporary_model;
 		$parser->parse_into_model($self->{base_uri}, $data, $model);
 		
 		my $graphname = $script->hasAttribute('id')
 			? join('#', $self->{base_uri}, $script->getAttribute('id'))
 			: sprintf('_:bn%s', substr $uuid->create_hex, 2);
 		
-		$self->{'graphs'}->{$graphname} = $model;
+		$self->{graphs}->{$graphname} = $model;
 	}
 	
 	return $self;
@@ -89,20 +95,15 @@ sub _extract_graphs
 
 sub _choose_parser_by_type
 {
-	my ($self, $type) = @_;
+	shift;
 
-	given ($type)
+	for ($_[0])
 	{
-		when(m'^\s*(application|text)/(x-)?turtle\b'i)
-			{ return RDF::Trine::Parser::Turtle->new; }
-		when (m'^\s*text/plain\b'i)
-			{ return RDF::Trine::Parser::NTriples->new; }
-		when (m'^\s*(application|text)/(x-)?(rdf\+)?n3\b'i)
-			{ return RDF::Trine::Parser::Notation3->new; }
-		when (m'^\s*(application/rdf\+xml)|(text/rdf)\b'i)
-			{ return RDF::Trine::Parser::RDFXML->new; }
-		when (m'^\s*application/(x-)?(rdf\+)?json\b'i)
-			{ return RDF::Trine::Parser::RDFJSON->new; }
+		return 'RDF::Trine::Parser::Turtle'->new    if m'^\s*(application|text)/(x-)?turtle\b'i;
+		return 'RDF::Trine::Parser::NTriples'->new  if m'^\s*text/plain\b'i;
+		return 'RDF::Trine::Parser::Notation3'->new if m'^\s*(application|text)/(x-)?(rdf\+)?n3\b'i;
+		return 'RDF::Trine::Parser::RDFXML'->new    if m'^\s*(application/rdf\+xml)|(text/rdf)\b'i;
+		return 'RDF::Trine::Parser::RDFJSON'->new   if m'^\s*application/(x-)?(rdf\+)?json\b'i;
 	}
 	
 	return undef;
@@ -110,19 +111,18 @@ sub _choose_parser_by_type
 
 sub _choose_parser_by_language
 {
-	my ($self, $language) = @_;
-	my $parser;
-	eval { $parser = RDF::Trine::Parser->new($language) };
-	return $parser;
+	shift;
+	return scalar eval { 'RDF::Trine::Parser'->new(@_) };
 }
 
 sub graph
 {
-	my ($self, $graph) = @_;
+	my $self = shift;
+	my ($graph) = @_;
 	
 	if (!defined $graph)
 	{
-		my $model = RDF::Trine::Model->temporary_model;
+		my $model = 'RDF::Trine::Model'->temporary_model;
 		while (my ($graph, $graph_model) = each %{ $self->{graphs} })
 		{
 			$graph_model->as_stream->each(sub {
@@ -134,7 +134,7 @@ sub graph
 	}
 	elsif ($graph eq '::ENDORSED')
 	{
-		my $model = RDF::Trine::Model->temporary_model;
+		my $model = 'RDF::Trine::Model'->temporary_model;
 		while (my ($graph, $graph_model) = each %{ $self->{graphs} })
 		{
 			next unless grep { $_ eq $graph } @{$self->{endorsements}};
@@ -153,19 +153,18 @@ sub graph
 
 sub union_graph
 {
-	my ($self) = @_;
-	return $self->graph;
+	shift->graph;
 }
 
 sub endorsed_union_graph
 {
-	my ($self) = @_;
-	return $self->graph('::ENDORSED');
+	shift->graph('::ENDORSED');
 }
 
 sub graphs
 {
-	my ($self, $graph) = @_;
+	my $self = shift;
+	my ($graph) = @_;
 	
 	if (!defined $graph)
 	{
@@ -196,30 +195,27 @@ sub graphs
 
 sub all_graphs
 {
-	my ($self) = @_;
-	return $self->graphs;	
+	shift->graphs;	
 }
 
 sub endorsed_graphs
 {
-	my ($self) = @_;
-	return $self->graphs('::ENDORSED');
+	shift->graphs('::ENDORSED');
 }
 
 sub endorsements
 {
-	return @{ $_[0]->{endorsements} };
+	@{ shift->{endorsements} };
 }
 
 sub dom
 {
-	return $_[0]->{'dom'}
+	shift->{dom}
 }
 
 sub uri
 {
-	my $self = shift;
-	return $self->{'rdfa_parser'}->uri(@_);
+	shift->{rdfa_parser}->uri(@_);
 }
 
 1;
@@ -370,7 +366,7 @@ Toby Inkster E<lt>tobyink@cpan.orgE<gt>.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2010-2011 by Toby Inkster.
+Copyright (C) 2010-2011, 2013 by Toby Inkster.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
